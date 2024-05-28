@@ -1,0 +1,5 @@
+FROM eclipse-temurin
+WORKDIR /usr/src/app
+COPY . .
+RUN javac -d . TCP_Client.java
+CMD ["java", "Zadaca3.TCP.TCP_Client"]

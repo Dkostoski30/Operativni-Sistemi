@@ -1,0 +1,5 @@
+FROM eclipse-temurin
+WORKDIR /usr/src/app
+COPY . .
+RUN javac -d . UDP_Server.java
+CMD ["java", "Zadaca3.UDP.UDP_Server"]

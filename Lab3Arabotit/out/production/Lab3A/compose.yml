@@ -1,0 +1,29 @@
+services:
+  udp_client:
+    build:
+      context: Zadaca1/.
+      dockerfile: Dockerfile-UDP_Client
+    networks:
+      - udp_network
+    depends_on:
+      - udp_server
+    deploy:
+      replicas: 5
+    environment:
+      - UDP_SERVER_PORT=7000
+      - UDP_SERVER_NAME=localhost
+
+  udp_server:
+    build:
+      context: Zadaca1/.
+      dockerfile: Dockerfile-UDP_Server
+    networks:
+      - udp_network
+    environment:
+      - UDP_SERVER_PORT=7000
+      - UDP_SERVER_NAME="localhost"
+    ports:
+      - "7000:7000"
+networks:
+  udp_network:
+    driver: bridge
