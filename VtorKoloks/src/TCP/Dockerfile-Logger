@@ -1,0 +1,6 @@
+FROM eclipse-temurin
+WORKDIR /usr/src/app
+COPY . .
+RUN javac -d . Logger_Server.java
+RUN mkdir logs_folder
+CMD ["java", "TCP.Logger_Server"]

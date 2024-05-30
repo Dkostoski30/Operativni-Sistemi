@@ -1,0 +1,49 @@
+services:
+  client:
+    build:
+      context: TCP/.
+      dockerfile: Dockerfile-Client
+    networks:
+      - tcp_network
+    depends_on:
+      server:
+        condition: service_started
+    environment:
+      - SERVER_PORT=7000
+      - SERVER_NAME=server
+
+  server:
+    build:
+      context: TCP/.
+      dockerfile: Dockerfile-Server
+    networks:
+      - tcp_network
+    depends_on:
+      logger:
+        condition: service_started
+    environment:
+      - SERVER_PORT=7000
+      - LOGGER_PORT=7001
+      - LOGGER_NAME=logger
+    ports:
+      - "7000:7000"
+
+  logger:
+    build:
+      context: TCP/.
+      dockerfile: Dockerfile-Logger
+    networks:
+      - tcp_network
+    environment:
+      - LOGGER_PORT=7001
+      - FILE_PATH=logs_folder/logs.txt
+    ports:
+      - "7001:7001"
+    volumes:
+      - .:/usr/src/app/logs_folder
+networks:
+  tcp_network:
+    driver: bridge
+
+volumes:
+  logs_volume:
